@@ -48,7 +48,7 @@ namespace ClearInvSSC
 		{
 			if (args.MsgID == PacketTypes.TileGetSection)
 			{
-				if (Netplay.serverSock[args.Msg.whoAmI].state == 2)
+				if (Netplay.Clients[args.Msg.whoAmI].State == 2)
 				{
 					CleanInventory(args.Msg.whoAmI);
 				}
@@ -64,25 +64,25 @@ namespace ClearInvSSC
 				player.sX = -1;
 				player.sY = -1;
 
-				for (int i = 0; i < NetItem.maxNetInventory; i++)
+				for (int i = 0; i < NetItem.MaxInventory; i++)
 				{
-					if (i < NetItem.maxNetInventory - (NetItem.armorSlots + NetItem.dyeSlots))
+					if (i < NetItem.MaxInventory - (NetItem.ArmorSlots + NetItem.DyeSlots))
 					{
 						player.TPlayer.inventory[i].netDefaults(0);
 					}
-					else if (i < NetItem.maxNetInventory - NetItem.dyeSlots)
+					else if (i < NetItem.MaxInventory - NetItem.DyeSlots)
 					{
-						var index = i - (NetItem.maxNetInventory - (NetItem.armorSlots + NetItem.dyeSlots));
+						var index = i - (NetItem.MaxInventory - (NetItem.ArmorSlots + NetItem.DyeSlots));
 						player.TPlayer.armor[index].netDefaults(0);
 					}
 					else
 					{
-						var index = i - (NetItem.maxNetInventory - NetItem.dyeSlots);
+						var index = i - (NetItem.MaxInventory - NetItem.DyeSlots);
 						player.TPlayer.dye[index].netDefaults(0);
 					}
 				}
 
-				for (int k = 0; k < NetItem.maxNetInventory; k++)
+				for (int k = 0; k < NetItem.MaxInventory; k++)
 				{
 					NetMessage.SendData(5, -1, -1, "", player.Index, (float)k, 0f, 0f, 0);
 				}
@@ -97,7 +97,7 @@ namespace ClearInvSSC
 				NetMessage.SendData(16, -1, -1, "", player.Index, 0f, 0f, 0f, 0);
 				NetMessage.SendData(50, -1, -1, "", player.Index, 0f, 0f, 0f, 0);
 
-				for (int k = 0; k < NetItem.maxNetInventory; k++)
+				for (int k = 0; k < NetItem.MaxInventory; k++)
 				{
 					NetMessage.SendData(5, player.Index, -1, "", player.Index, (float)k, 0f, 0f, 0);
 				}
