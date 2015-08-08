@@ -56,6 +56,7 @@ namespace ClearInvSSC
 		}
 		private void CleanInventory(int Who)
 		{
+
 			if (TShock.ServerSideCharacterConfig.Enabled && !TShock.Players[Who].IsLoggedIn)
 			{
 				var player = TShock.Players[Who];
@@ -66,20 +67,53 @@ namespace ClearInvSSC
 
 				for (int i = 0; i < NetItem.MaxInventory; i++)
 				{
-					if (i < NetItem.MaxInventory - (NetItem.ArmorSlots + NetItem.DyeSlots))
+					if (i < NetItem.InventorySlots)
 					{
+						//0-58
 						player.TPlayer.inventory[i].netDefaults(0);
 					}
-					else if (i < NetItem.MaxInventory - NetItem.DyeSlots)
+					else if (i < NetItem.InventorySlots + NetItem.ArmorSlots)
 					{
-						var index = i - (NetItem.MaxInventory - (NetItem.ArmorSlots + NetItem.DyeSlots));
+						//59-78
+						var index = i - NetItem.InventorySlots;
 						player.TPlayer.armor[index].netDefaults(0);
+					}
+					else if (i < NetItem.InventorySlots + NetItem.ArmorSlots + NetItem.DyeSlots)
+					{
+						//79-88
+						var index = i - (NetItem.InventorySlots + NetItem.ArmorSlots);
+						player.TPlayer.dye[index].netDefaults(0);
+					}
+					else if (i < NetItem.InventorySlots + NetItem.ArmorSlots + NetItem.DyeSlots + NetItem.MiscEquipSlots)
+					{
+						//89-93
+						var index = i - (NetItem.InventorySlots + NetItem.ArmorSlots + NetItem.DyeSlots);
+						player.TPlayer.miscEquips[index].netDefaults(0);
+					}
+					else if (i < NetItem.InventorySlots + NetItem.ArmorSlots + NetItem.DyeSlots + NetItem.MiscEquipSlots + NetItem.MiscDyeSlots)
+					{
+						//93-98
+						var index = i - (NetItem.InventorySlots + NetItem.ArmorSlots + NetItem.DyeSlots + NetItem.MiscEquipSlots);
+						player.TPlayer.miscDyes[index].netDefaults(0);
+					}
+					else if (i < NetItem.InventorySlots + NetItem.ArmorSlots + NetItem.DyeSlots + NetItem.MiscEquipSlots + NetItem.MiscDyeSlots + NetItem.PiggySlots)
+					{
+						//98-138
+						var index = i - (NetItem.InventorySlots + NetItem.ArmorSlots + NetItem.DyeSlots + NetItem.MiscEquipSlots + NetItem.MiscDyeSlots);
+						player.TPlayer.bank.item[index].netDefaults(0);
+					}
+					else if (i < NetItem.InventorySlots + NetItem.ArmorSlots + NetItem.DyeSlots + NetItem.MiscEquipSlots + NetItem.MiscDyeSlots + NetItem.PiggySlots + NetItem.SafeSlots)
+					{
+						//138-178
+						var index = i - (NetItem.InventorySlots + NetItem.ArmorSlots + NetItem.DyeSlots + NetItem.MiscEquipSlots + NetItem.MiscDyeSlots + NetItem.PiggySlots);
+						player.TPlayer.bank2.item[index].netDefaults(0);
 					}
 					else
 					{
-						var index = i - (NetItem.MaxInventory - NetItem.DyeSlots);
-						player.TPlayer.dye[index].netDefaults(0);
+						//179
+						player.TPlayer.trashItem.netDefaults(0);
 					}
+
 				}
 
 				for (int k = 0; k < NetItem.MaxInventory; k++)
