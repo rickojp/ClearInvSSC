@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace ClearInvSSC
 {
-	[ApiVersion(1, 16)]
+	[ApiVersion(1, 21)]
 
 	public class ClearInvSSC : TerrariaPlugin
 	{
